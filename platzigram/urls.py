@@ -22,5 +22,5 @@ urlpatterns = [
     path('hello/', local_views.hello_world),
     path('sorted/', local_views.sorted_numbers),
     path('hi/<str:name>/<int:age>/', local_views.say_hi),
-    path('posts/',post_views.list_views),
+    path('posts/',post_views.list_posts),
 ]
