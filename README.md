@@ -23,7 +23,11 @@ Notes:
 
 In this class we use the User model that come with Django, and we
 create super user with `python manage.py createsuperuser` and also
-we delete the model user that qwe create tu use the user model that
+we delete the model user that we create tu use the user model that
 django give to us.
 
 ### Class 9:
+
+In this class we create new app named _users_ and in this app we
+define a new model named Profile which is created with a proxy 
+(like copy) from the user default model.
