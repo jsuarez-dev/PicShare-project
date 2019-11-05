@@ -18,3 +18,12 @@ all the Django app upload by default.
 Notes:
 - The **ORM** model by default add a ID column.
 - When you add a new column and the table has data you should add default value or 
+
+### Class 8:
+
+In this class we use the User model that come with Django, and we
+create super user with `python manage.py createsuperuser` and also
+we delete the model user that qwe create tu use the user model that
+django give to us.
+
+### Class 9:
