@@ -1,5 +1,6 @@
 """Post models."""
 
+# Django
 from django.db import models
 
 
@@ -14,7 +15,12 @@ class User(models.Model):
 
     bio = models.TextField()
 
-    birthdate = models.DateField(blank=True,null=True)
+    country = models.CharField(max_length=30, blank=True)
+    city = models.CharField(max_length=30, blank=True)
+
+    is_admin = models.BooleanField(default=False)
+
+    birth_date = models.DateField(blank=True, null=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
