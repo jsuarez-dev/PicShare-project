@@ -1,5 +1,6 @@
 # Platzigram-project
-This repository has the result project of a Django course by Platzi
+This repository has the result project of a Django course 
+by Platzi
 
 
 ### class 1:
@@ -37,3 +38,7 @@ define a new model named Profile which is created with a proxy
 In these classes we work with admin interface that django give to
 us to create and modify data objects from the data base. Also we
 customize the admin interface to create profiles in an easier way
+
+### Class 12 
+In this class, we created the Post model and configure the a 
+static folder to allocate the pictures. 
