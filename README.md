@@ -31,3 +31,9 @@ django give to us.
 In this class we create new app named _users_ and in this app we
 define a new model named Profile which is created with a proxy 
 (like copy) from the user default model.
+
+### Class 10 and 11
+
+In these classes we work with admin interface that django give to
+us to create and modify data objects from the data base. Also we
+customize the admin interface to create profiles in an easier way
