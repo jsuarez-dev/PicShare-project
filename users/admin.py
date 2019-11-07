@@ -67,5 +67,6 @@ class UserAdmin(BaseUserAdmin):
         'is_staff',
     )
 
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
