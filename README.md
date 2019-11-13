@@ -41,4 +41,7 @@ customize the admin interface to create profiles in an easier way
 
 ### Class 12 
 In this class, we created the Post model and configure the a 
-static folder to allocate the pictures. 
+static folder to allocate the pictures. Also we created views for
+for the post page and use a few images.
+
+### Class 13
