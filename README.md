@@ -45,3 +45,5 @@ static folder to allocate the pictures. Also we created views for
 for the post page and use a few images.
 
 ### Class 13
+In this class, we created the login for our application.
+

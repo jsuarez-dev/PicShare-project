@@ -1,0 +1,19 @@
+{% extends "users/base.html" %}
+
+{% block head_content %}
+    <title> Platzigram Sing In </title>
+{% endblock %}
+
+{% block container %}
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" action="{% url "login" %}">
+        {% csrf_token %}
+
+        <input type="text" placeholder="User Name" name="username" />
+        <input type="password" placeholder="Password" name="password" />
+        <button type="submit">Sing In</button>
+    </form>
+{% endblock %}
