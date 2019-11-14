@@ -3,13 +3,13 @@ This repository has the result project of a Django course
 by Platzi
 
 
-### class 1:
-### class 2:
-### class 3:
-### class 4:
-### class 5:
-### class 6:
-### class 7:
+### Class 1:
+### Class 2:
+### Class 3:
+### Class 4:
+### Class 5:
+### Class 6:
+### Class 7:
 In this class we add a new field "is_admin" and I modify the field 
 "birthdate" to "birth_date" to see how Django does these.
 Then we use the Django Shell to add a object in to de data base. 
@@ -47,3 +47,6 @@ for the post page and use a few images.
 ### Class 13
 In this class, we created the login for our application.
 
+### Class 14 and 15
+
+In this class, we created the logout and sing up for our application.
