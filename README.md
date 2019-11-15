@@ -49,4 +49,9 @@ In this class, we created the login for our application.
 
 ### Class 14 and 15
 
-In this class, we created the logout and sing up for our application.
+In this class, we created the logout and sing up for our 
+application.
+
+### class 16 
+In this class we study middleware and we created one to redirect
+to "update profile" if the profile of the user has't completed.
