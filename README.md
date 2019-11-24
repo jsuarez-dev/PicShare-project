@@ -55,3 +55,7 @@ application.
 ### class 16 
 In this class we study middleware and we created one to redirect
 to "update profile" if the profile of the user has't completed.
+
+### class 17
+In this class we create the form to update the profile of the
+user using django forms.
