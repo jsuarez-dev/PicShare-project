@@ -59,3 +59,7 @@ to "update profile" if the profile of the user has't completed.
 ### class 17
 In this class we create the form to update the profile of the
 user using django forms.
+
+### Class 18
+In this class we create a form from the post model to 
+create posts and views for each url.
