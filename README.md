@@ -1,5 +1,5 @@
 # Platzigram-project
-This repository has the result project of a Django course 
+This repository has the result project of a Django course
 by Platzi
 
 
@@ -10,15 +10,15 @@ by Platzi
 ### Class 5:
 ### Class 6:
 ### Class 7:
-In this class we add a new field "is_admin" and I modify the field 
+In this class we add a new field "is_admin" and I modify the field
 "birthdate" to "birth_date" to see how Django does these.
-Then we use the Django Shell to add a object in to de data base. 
-To open the shell we use `python manage.py shell`, this shell has 
+Then we use the Django Shell to add a object in to de data base.
+To open the shell we use `python manage.py shell`, this shell has
 all the Django app upload by default.
 
 Notes:
 - The **ORM** model by default add a ID column.
-- When you add a new column and the table has data you should add default value or 
+- When you add a new column and the table has data you should add default value or
 
 ### Class 8:
 
@@ -30,7 +30,7 @@ django give to us.
 ### Class 9:
 
 In this class we create new app named _users_ and in this app we
-define a new model named Profile which is created with a proxy 
+define a new model named Profile which is created with a proxy
 (like copy) from the user default model.
 
 ### Class 10 and 11
@@ -39,8 +39,8 @@ In these classes we work with admin interface that django give to
 us to create and modify data objects from the data base. Also we
 customize the admin interface to create profiles in an easier way
 
-### Class 12 
-In this class, we created the Post model and configure the a 
+### Class 12
+In this class, we created the Post model and configure the a
 static folder to allocate the pictures. Also we created views for
 for the post page and use a few images.
 
@@ -49,10 +49,10 @@ In this class, we created the login for our application.
 
 ### Class 14 and 15
 
-In this class, we created the logout and sing up for our 
+In this class, we created the logout and sing up for our
 application.
 
-### class 16 
+### class 16
 In this class we study middleware and we created one to redirect
 to "update profile" if the profile of the user has't completed.
 
@@ -61,5 +61,5 @@ In this class we create the form to update the profile of the
 user using django forms.
 
 ### Class 18
-In this class we create a form from the post model to 
+In this class we create a form from the post model to
 create posts and views for each url.
