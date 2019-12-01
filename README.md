@@ -63,3 +63,6 @@ user using django forms.
 ### Class 18
 In this class we create a form from the post model to
 create posts and views for each url.
+
+### class 19
+In this class, we create a form validation for a the signup form
