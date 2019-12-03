@@ -66,3 +66,11 @@ create posts and views for each url.
 
 ### class 19
 In this class, we create a form validation for a the signup form
+
+### Class 20 and 21
+In this class, we organize the main urls file in urls file for 
+each application. Then we create a new view base in class to check
+the user profile. in the twenty first class we fix some bug create
+because of the new urls configuration. Then we add the Login Recuaried
+in the user detail's view. And at the end I create a detail link for
+each post.

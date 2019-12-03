@@ -5,7 +5,7 @@ from django.urls import reverse
 
 
 class ProfileCompletionMiddleware:
-    """Profile completition middleware:
+    """Profile completion middleware:
     This middleware ensure that every user has his/her profile full fill.
     """
 
@@ -21,7 +21,7 @@ class ProfileCompletionMiddleware:
                 profile = request.user.profile
                 if not profile.picture or not profile.biography:
                     if request.path not in [reverse('update_profile'), reverse('logout')]:
-                        return redirect('update_profile')
+                        return redirect('users:update')
 
         response = self.get_response(request)
         return response

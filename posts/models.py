@@ -4,6 +4,7 @@
 from django.db import models
 # Local
 from django.contrib.auth.models import User
+# Utilities
 
 
 class Post(models.Model):
