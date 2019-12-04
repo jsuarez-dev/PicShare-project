@@ -74,3 +74,10 @@ the user profile. in the twenty first class we fix some bug create
 because of the new urls configuration. Then we add the Login Recuaried
 in the user detail's view. And at the end I create a detail link for
 each post.
+
+### Class 22
+
+In this class, we use CreateView Class to re-write the view of "post/new"
+.Then, we use FormView Class to re-write the view of "users/signup".
+Then, we use UpdateView Class to re-write the view of "update_profile".
+And we create the "pagination.html" to re-use.

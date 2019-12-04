@@ -15,14 +15,14 @@ urlpatterns = [
     ),
 
     path(
-        route='posts/<int:id_post>',
+        route='posts/<int:id_post>/',
         view=views.PostDetailView.as_view(),
         name='detail'
     ),
 
     path(
         route='posts/new/',
-        view=views.create_post,
+        view=views.CreatePostView.as_view(),
         name='create'
     ),
 ]
