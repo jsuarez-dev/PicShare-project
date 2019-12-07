@@ -81,3 +81,8 @@ In this class, we use CreateView Class to re-write the view of "post/new"
 .Then, we use FormView Class to re-write the view of "users/signup".
 Then, we use UpdateView Class to re-write the view of "update_profile".
 And we create the "pagination.html" to re-use.
+
+### Class 23
+
+In this class we use LoginView and LogoutView class to re-write the views and
+improve in general the code. Also add the file to deploy in Google Cloud. 

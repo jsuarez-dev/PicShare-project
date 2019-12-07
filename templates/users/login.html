@@ -5,11 +5,22 @@
 {% endblock %}
 
 {% block container %}
-    {% if error %}
-        <p class="alert alert-danger">{{ error }}</p>
+    {% if form.errors %}
+        <p class="alert alert-danger">
+            Your Username and Password didn't match. Please try again
+        </p>
     {% endif %}
 
-    <form method="POST" action="{% url "users:login" %}">
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p class="alert alert-danger">Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+        {% else %}
+            <p class="alert alert-danger">Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'users:login' %}">
         {% csrf_token %}
         <div class="form-group">
             <input class="form-control" type="text" placeholder="User Name" name="username" />
@@ -22,5 +33,5 @@
 
     </form>
 
-    <p class="mt-4">Don't have an account yet? <a href="{% url "users:signup" %}">Sign Up</a></p>
+    <p class="mt-4">Don't have an account yet? <a href="{% url 'users:signup' %}">Sign Up</a></p>
 {% endblock %}
