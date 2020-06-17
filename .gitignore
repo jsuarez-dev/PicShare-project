@@ -3,6 +3,11 @@
 # Edit at https://www.gitignore.io/?templates=macos
 
 ### macOS ###
+
+#
+keys
+.vscode/
+cloud_sql_proxy
 # General
 .DS_Store
 .AppleDouble
