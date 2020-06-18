@@ -3,7 +3,7 @@
 # Edit at https://www.gitignore.io/?templates=macos
 
 ### macOS ###
-
+media/
 #
 keys
 .vscode/
