@@ -6,11 +6,16 @@
 
 {% block container %}
 
-
     <form action="{% url 'users:signup' %}" method="POST">
+        <h3 class="sub-title">Sign up</h3>
         {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" type="text" placeholder="{{ form.username.label_tag }}" name="{{ form.username.label_tag }}" />
+        </div>
 
-        {{ form.as_p }}
+        <div class="form-group">
+            <input class="form-control" type="password" placeholder="Password" name="password" />
+        </div>
         <button class="btn btn-primary btn-block mt-5" type="submit">Register</button>
     </form>
 
