@@ -3,13 +3,13 @@
 # Django
 from django.db import models
 # Local
-from django.contrib.auth.models import User
+from users.models import User
 # Utilities
 
 
 class Post(models.Model):
     """Post model."""
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE)
     profile = models.ForeignKey('users.Profile', on_delete=models.CASCADE)
 
     title = models.CharField(max_length=255)

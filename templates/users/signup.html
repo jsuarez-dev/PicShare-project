@@ -6,17 +6,107 @@
 
 {% block container %}
 
-    <form action="{% url 'users:signup' %}" method="POST">
-        <h3 class="sub-title">Sign up</h3>
+    <h2 action="{% url 'users:signup' %}" class="text-center">Sign Up</h2>
+    <form method="post">
         {% csrf_token %}
-        <div class="form-group">
-            <input class="form-control" type="text" placeholder="{{ form.username.label_tag }}" name="{{ form.username.label_tag }}" />
-        </div>
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        {{ error|escape }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ error|escape }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+                <p class="alert alert-danger">Your account doesn't have access to this page. To proceed,
+                please login with an account that has access.</p>
+            {% else %}
+                <p class="alert alert-danger">Please login to see this page.</p>
+            {% endif %}
+        {% endif %}
 
         <div class="form-group">
-            <input class="form-control" type="password" placeholder="Password" name="password" />
+            <input class="form-control {% if form.username.errors %}is-invalid{% endif %}"
+                   type="text"
+                   placeholder="{{ form.username.label }}"
+                   name="{{ form.username.html_name }}"
+                   value="{% if form.username.value %}{{ form.username.value }}{% endif %}"
+                   maxlength="{{ form.username.max_length }}"
+                   minlength="{{ form.username.min_length }}"
+                   required
+            />
         </div>
-        <button class="btn btn-primary btn-block mt-5" type="submit">Register</button>
+        <div class="form-group">
+            <input class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+                   type="email"
+                   placeholder="{{ form.email.label }}"
+                   name="{{ form.email.html_name }}"
+                   value="{% if form.email.value %}{{ form.email.value }}{% endif %}"
+                   maxlength="{{ form.email.max_length }}"
+                   minlength="{{ form.email.min_length }}"
+                   required
+            />
+        </div>
+        <div class="form-group">
+            <input class="form-control {% if form.password.errors %}is-invalid{% endif %}"
+                   type="password"
+                   placeholder="{{ form.password.label }}"
+                   name="{{ form.password.name }}"
+                   required
+                   maxlength="{{ form.password.max_length }}"
+                   minlength="{{ form.password.min_length }}"
+            />
+        </div>
+        <div class="form-group">
+            <input class="form-control {% if form.password_confirmation.errors %}is-invalid{% endif %}"
+                   type="password"
+                   placeholder="{{ form.password_confirmation.label }}"
+                   name="{{ form.password_confirmation.name }}"
+                   required
+                   maxlength="{{ form.password_confirmation.max_length }}"
+                   minlength="{{ form.password_confirmation.min_length }}"
+            />
+        </div>
+
+        <div class="form-group form-row text-center">
+            <div class="col">
+                <input class="form-control {% if form.first_name.errors %}is-invalid{% endif %}"
+                       type="text"
+                       placeholder="{{ form.first_name.label }}"
+                       name="{{ form.first_name.name }}"
+                       value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}"
+                       maxlength="{{ form.first_name.max_length }}"
+                       minlength="{{ form.first_name.min_length }}"
+                />
+            </div>
+            <div class="col">
+                <input class="form-control {% if form.last_name.errors %}is-invalid{% endif %}"
+                       type="text"
+                       placeholder="{{ form.last_name.label }}"
+                       name="{{ form.last_name.name }}"
+                       value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}"
+                       maxlength="{{ form.last_name.max_length }}"
+                       minlength="{{ form.last_name.min_length }}"
+                />
+            </div>
+        </div>
+
+
+        <div class="form-group form-row text-center">
+            <div class="col">
+                <button class="btn btn-primary btn-block" type="submit">Sing In</button>
+            </div>
+            <div class="col">
+                <a href="{% url 'users:login' %}" class="btn btn-default btn-block border-dark">Cancel</a>
+            </div>
+        </div>
     </form>
-
 {% endblock %}

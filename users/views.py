@@ -1,19 +1,16 @@
 """User Views"""
 
 # Django
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView, FormView, UpdateView
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import views as auth_views
 # Models
-from django.contrib.auth.models import User
+from users.models import User
 from posts.models import Post
 from users.models import Profile
 # Forms
-from users.forms import SignupForm
+from users.forms import SignupForm, LoginForm
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -52,6 +49,7 @@ class LoginView(auth_views.LoginView):
     """Login View."""
 
     template_name = 'users/login.html'
+    #form_class = LoginForm
 
 
 class SignUpView(FormView):
