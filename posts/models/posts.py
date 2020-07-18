@@ -15,9 +15,16 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     photo = models.ImageField(upload_to='posts/photos')
 
+    tags = models.ManyToManyField('posts.Tag')
+
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         """Return title and username"""
         return '{} by @{}'.format(self.title, self.user.username)
+
+
+
+
+

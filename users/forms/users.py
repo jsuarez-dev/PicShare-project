@@ -2,38 +2,10 @@
 # Django
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import AuthenticationForm
 # Models
 from users.models import User
 from users.models import Profile
-
-
-class LoginForm(forms.Form):
-    """ Login form """
-    username = forms.CharField(min_length=4, max_length=50)
-    password = forms.CharField(
-        min_length=4,
-        max_length=70,
-        widget=forms.PasswordInput()
-    )
-
-    def __init__(self, request=None, *args, **kwargs):
-        self.request = request
-        super(LoginForm, self).__init__(*args, **kwargs)
-
-    def clean(self):
-        username = self.cleaned_data.get('username')
-        password = self.cleaned_data.get('password')
-
-        if username is not None and password:
-            if '@' in username:
-                self.user_cache = authenticate(self.request, email=username, password=password)
-            else:
-                self.user_cache = authenticate(self.request, username=username, password=password)
-
-            if self.user_cache is None:
-                raise forms.ValidationError('Wrong Password')
-
-        return self.cleaned_data
 
 
 class SignupForm(forms.Form):

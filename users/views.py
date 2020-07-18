@@ -10,7 +10,7 @@ from users.models import User
 from posts.models import Post
 from users.models import Profile
 # Forms
-from users.forms import SignupForm, LoginForm
+from users.forms import SignupForm
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -33,7 +33,7 @@ class UpdateProfile(LoginRequiredMixin, UpdateView):
     """Update profile View"""
     template_name = 'users/update_profile.html'
     model = Profile
-    fields = ['website', 'biography', 'phone_number', 'picture']
+    fields = ['website', 'biography', 'picture']
 
     def get_object(self):
         """Return user's profile"""
@@ -49,7 +49,6 @@ class LoginView(auth_views.LoginView):
     """Login View."""
 
     template_name = 'users/login.html'
-    #form_class = LoginForm
 
 
 class SignUpView(FormView):

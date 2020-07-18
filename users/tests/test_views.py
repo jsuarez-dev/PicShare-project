@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 # Models
 from users.models import User
+from users.models import Profile
 
 
 class TestSignUpViews(TestCase):
@@ -50,41 +51,55 @@ class TestSignUpViews(TestCase):
 
 
 class TestLoginView(TestCase):
-    """Test the functionality of the Loing view"""
+    """Test the functionality of the Login view"""
     def setUp(self):
         """Initialise variables."""
         self.client = Client()
         self.url = reverse('users:login')
-        User.objects.create(
-            username='john123',
-            password='12345',
-            first_name='john',
-            last_name='smith',
-            email='john@smith.io'
-        )
 
     def test_basic_login_username(self):
         """Test basic login username"""
+        response = self.client.post(reverse('users:signup'), {
+            'username': 'john123',
+            'password': '12345',
+            'password_confirmation': '12345',
+            'first_name': 'john',
+            'last_name': 'smith',
+            'email': 'john@smith.io'
+        })
+
+        self.assertEquals(response.status_code, 302)
+        self.assertEquals(response.url, reverse('users:login'))
+        self.assertEquals(User.objects.get(username='john123').email, 'john@smith.io')
 
         response = self.client.post(self.url, {
             'username': 'john123',
             'password': '12345'
         })
-        print(self.url)
-        print(response.context['form'].errors)
+
         self.assertEquals(response.status_code, 302)
-        #self.assertGreaterEqual(len(response.context['form'].errors), 1)
-        self.assertTemplateUsed(response, '/posts/feed.html')
-        #self.assertEquals(response)
+        self.assertIsNone(response.context)
 
     def test_basic_login_email(self):
         """Test basic login email"""
+        response = self.client.post(reverse('users:signup'), {
+            'username': 'john123',
+            'password': '12345',
+            'password_confirmation': '12345',
+            'first_name': 'john',
+            'last_name': 'smith',
+            'email': 'john@smith.io'
+        })
+
+        self.assertEquals(response.status_code, 302)
+        self.assertEquals(response.url, reverse('users:login'))
+        self.assertEquals(User.objects.get(username='john123').email, 'john@smith.io')
 
         response = self.client.post(self.url, {
             'username': 'john@smith.io',
             'password': '12345'
         })
-        print(self.url)
-        print(response.context['form'].errors)
+
+        #print(response.context['form'].errors)
         self.assertEquals(response.status_code, 302)
-        self.assertTemplateUsed(response, '/posts/feed.html')
+        self.assertIsNone(response.context)

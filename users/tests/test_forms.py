@@ -3,7 +3,7 @@
 # Django
 from django.test import TestCase
 # Forms
-from users.forms import LoginForm
+
 # Models
 from users.models import User
 

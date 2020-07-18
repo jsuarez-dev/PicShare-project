@@ -2,35 +2,30 @@
 
 # Django
 from django.db import models
-from django.core.validators import RegexValidator
 # Models
 from users.models import User
 
 
 class Profile(models.Model):
     """Profile model.
-    We use proxy model that extends the base data with
+    We use one to one model that extends the base data with
     other information
     """
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    GENDERS = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other'),
+        ('P', 'Prefer not to say')
+    ]
+
+    user = models.OneToOneField('users.User', on_delete=models.CASCADE)
 
     website = models.URLField(max_length=200, blank=True)
     biography = models.TextField(blank=True)
-    phone_regex = RegexValidator(
-        regex=r'\+?1?\d{9,15}$',
-        message='Phone number must be in the format +99999999. Up to 15 digits allowed'
-    )
-    phone_number = models.CharField(
-        validators=[phone_regex],
-        max_length=15,
-        unique=True,
-        null=True,
-        blank=True
-    )
 
     picture = models.ImageField(upload_to='users/pictures', blank=True, null=True)
-
+    gender = models.CharField(max_length=2, choices=GENDERS, default='P')
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -38,3 +33,11 @@ class Profile(models.Model):
         """Return username"""
         return self.user.username
 
+
+class Following(models.Model):
+    """ Following model
+    have all the profiles that a person follow
+    """
+
+    profile = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='profile_id')
+    following = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='following')

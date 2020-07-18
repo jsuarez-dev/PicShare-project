@@ -3,6 +3,7 @@
 # Django
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
 
 
 class User(AbstractUser):
@@ -25,7 +26,19 @@ class User(AbstractUser):
         help_text='Set to true when the user have verified its email.'
     )
 
-    #USERNAME_FIELD = 'email'
+    phone_regex = RegexValidator(
+        regex=r'\+?1?\d{9,15}$',
+        message='Phone number must be in the format +99999999. Up to 15 digits allowed'
+    )
+    phone_number = models.CharField(
+        validators=[phone_regex],
+        max_length=15,
+        unique=True,
+        null=True,
+        blank=True
+    )
+
+    #USERNAME_FIELD = ['email']
     #REQUIRED_FIELDS = ['username']
 
     def __str__(self):
