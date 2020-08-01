@@ -6,6 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import views as auth_views
 from django.conf import settings
+from django.shortcuts import redirect
 # Models
 from users.models import User
 from posts.models import Post
@@ -29,23 +30,36 @@ class VerifyEmailView(TemplateView):
     def get(self, request, *args, **kwargs):
         """Verify the JWT token"""
         context = self.get_context_data(**kwargs)
-        token = request.GET['token']
+
+        if not request.user.is_anonymous and request.user.is_authenticated:
+            return redirect(reverse('posts:feed'))
+
+        token = request.GET.get('token')
         if token:
             try:
                 payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+            except jwt.InvalidSignatureError:
+                context['error'] = 'Invalid Token'
+                return self.render_to_response(context)
             except jwt.ExpiredSignature:
-                raise auth_views.ValidationError('Verification link has expired.')
+                context['error'] = 'Token has expired'
+                return self.render_to_response(context)
             except jwt.PyJWTError:
-                raise auth_views.ValidationError('Invalid token')
+                context['error'] = 'Invalid Token'
+                return self.render_to_response(context)
 
             if payload['type'] != 'email_confirmation':
-                raise auth_views.ValidationError('Invalid token')
+                context['error'] = 'Invalid Token'
+                return self.render_to_response(context)
 
             user = User.objects.get(username=payload['user'])
+            if user.is_verified:
+                return redirect(reverse('users:login'))
             user.is_verified = True
             user.save()
+            context['work'] = 'Your email has been verified'
         else:
-            raise auth_views.ValidationError('no token')
+            return redirect(reverse('users:login'))
         return self.render_to_response(context)
 
 

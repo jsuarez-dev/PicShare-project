@@ -68,7 +68,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # local middleware
     'platzigram.middleware.ProfileCompletionMiddleware',
-    'platzigram.middleware.UserVerifiedMiddleware'
+    #'platzigram.middleware.UserVerifiedMiddleware'
 ]
 # urls
 ROOT_URLCONF = 'platzigram.urls'

@@ -1,1 +1,26 @@
-siiii
+{% extends "users/base.html" %}
+
+{% block head_content %}
+    <title>AI-gram</title>
+{% endblock %}
+
+{% block container %}
+
+    <div>
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            <h3 class="text-center">{{ error }}</h3>
+        </div>
+        {% elif work %}
+        <div class="alert alert-success" role="alert">
+            <h3 class="text-center">{{ work }}</h3>
+        </div>
+        <script>
+            setTimeout(function(){
+               window.location.href = '{% url 'users:login' %}';
+            }, 5000);
+         </script>
+        {% endif %}
+    </div>
+
+{% endblock %}
