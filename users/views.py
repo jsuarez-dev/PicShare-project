@@ -39,25 +39,31 @@ class VerifyEmailView(TemplateView):
             try:
                 payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
             except jwt.InvalidSignatureError:
-                context['error'] = 'Invalid Token'
+                context['status'] = 'Invalid Token'
                 return self.render_to_response(context)
             except jwt.ExpiredSignature:
-                context['error'] = 'Token has expired'
+                context['status'] = 'Token has expired'
                 return self.render_to_response(context)
             except jwt.PyJWTError:
-                context['error'] = 'Invalid Token'
+                context['status'] = 'Invalid Token'
                 return self.render_to_response(context)
 
             if payload['type'] != 'email_confirmation':
-                context['error'] = 'Invalid Token'
+                context['status'] = 'Invalid Token'
                 return self.render_to_response(context)
 
-            user = User.objects.get(username=payload['user'])
+            # Query user
+            try:
+                user = User.objects.get(username=payload['user'])
+            except User.DoesNotExist:
+                return redirect(reverse('users:login'))
+
             if user.is_verified:
                 return redirect(reverse('users:login'))
+
             user.is_verified = True
             user.save()
-            context['work'] = 'Your email has been verified'
+            context['status'] = 'successful'
         else:
             return redirect(reverse('users:login'))
         return self.render_to_response(context)

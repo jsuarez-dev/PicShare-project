@@ -7,13 +7,13 @@
 {% block container %}
 
     <div>
-        {% if error %}
+        {% if status != "successful" %}
         <div class="alert alert-danger" role="alert">
-            <h3 class="text-center">{{ error }}</h3>
+            <h3 class="text-center">{{ status }}</h3>
         </div>
-        {% elif work %}
+        {% elif status == "successful" %}
         <div class="alert alert-success" role="alert">
-            <h3 class="text-center">{{ work }}</h3>
+            <h3 class="text-center">Your Email has been verified</h3>
         </div>
         <script>
             setTimeout(function(){
