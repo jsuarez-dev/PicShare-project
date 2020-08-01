@@ -38,4 +38,14 @@ urlpatterns = [
         view=views.UserDetailView.as_view(),
         name='detail'
     ),
+    path(
+        route='email/verify/',
+        view=views.VerifyEmailView.as_view(),
+        name='verify'
+    ),
+    path(
+        route='email/send/',
+        view=views.SendEmailVerificationView.as_view(),
+        name='send_email_verification'
+    )
 ]

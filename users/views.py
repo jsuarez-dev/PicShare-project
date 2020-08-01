@@ -1,16 +1,52 @@
 """User Views"""
 
 # Django
-from django.views.generic import DetailView, FormView, UpdateView
+from django.views.generic import DetailView, FormView, UpdateView, TemplateView
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import views as auth_views
+from django.conf import settings
 # Models
 from users.models import User
 from posts.models import Post
 from users.models import Profile
 # Forms
 from users.forms import SignupForm
+# Utilities
+import jwt
+
+
+class SendEmailVerificationView(TemplateView):
+    template_name = 'users/send_email_verification.html'
+
+
+class VerifyEmailView(TemplateView):
+    """Verify email"""
+
+    template_name = 'users/email_verified.html'
+    http_method_names = ['get']
+
+    def get(self, request, *args, **kwargs):
+        """Verify the JWT token"""
+        context = self.get_context_data(**kwargs)
+        token = request.GET['token']
+        if token:
+            try:
+                payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+            except jwt.ExpiredSignature:
+                raise auth_views.ValidationError('Verification link has expired.')
+            except jwt.PyJWTError:
+                raise auth_views.ValidationError('Invalid token')
+
+            if payload['type'] != 'email_confirmation':
+                raise auth_views.ValidationError('Invalid token')
+
+            user = User.objects.get(username=payload['user'])
+            user.is_verified = True
+            user.save()
+        else:
+            raise auth_views.ValidationError('no token')
+        return self.render_to_response(context)
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -41,7 +77,7 @@ class UpdateProfile(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         """Return to user's profile."""
-        username = self.object.user.username
+        username = self.object.user.usernamet
         return reverse('users:detail', kwargs={'username': username})
 
 
@@ -55,7 +91,7 @@ class SignUpView(FormView):
     """Class Sign up view"""
     template_name = 'users/signup.html'
     form_class = SignupForm
-    success_url = reverse_lazy('users:login')
+    success_url = reverse_lazy('users:send_email_verification')
 
     def form_valid(self, form):
         """ Save the form. """

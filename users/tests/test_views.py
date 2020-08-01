@@ -4,9 +4,14 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.utils import timezone
+from django.conf import settings
 # Models
 from users.models import User
 from users.models import Profile
+# Utilities
+import jwt
+from datetime import timedelta
 
 
 class TestSignUpViews(TestCase):
@@ -28,7 +33,7 @@ class TestSignUpViews(TestCase):
         })
 
         self.assertEquals(response.status_code, 302)
-        self.assertEquals(response.url, reverse('users:login'))
+        self.assertEquals(response.url, reverse('users:send_email_verification'))
         self.assertEquals(User.objects.get(username='john123').email, 'john@smith.io')
 
     def test_black_signup(self):
@@ -69,7 +74,7 @@ class TestLoginView(TestCase):
         })
 
         self.assertEquals(response.status_code, 302)
-        self.assertEquals(response.url, reverse('users:login'))
+        self.assertEquals(response.url, reverse('users:send_email_verification'))
         self.assertEquals(User.objects.get(username='john123').email, 'john@smith.io')
 
         response = self.client.post(self.url, {
@@ -92,7 +97,7 @@ class TestLoginView(TestCase):
         })
 
         self.assertEquals(response.status_code, 302)
-        self.assertEquals(response.url, reverse('users:login'))
+        self.assertEquals(response.url, reverse('users:send_email_verification'))
         self.assertEquals(User.objects.get(username='john123').email, 'john@smith.io')
 
         response = self.client.post(self.url, {
@@ -100,6 +105,43 @@ class TestLoginView(TestCase):
             'password': '12345'
         })
 
-        #print(response.context['form'].errors)
         self.assertEquals(response.status_code, 302)
         self.assertIsNone(response.context)
+
+
+class TestVerifyView(TestCase):
+    """Test verify view"""
+
+    def setUp(self):
+        self.client = Client()
+        self.url = reverse('users:signup')
+
+        self.client.post(self.url, {
+            'username': 'john123',
+            'password': '12345',
+            'password_confirmation': '12345',
+            'first_name': 'john',
+            'last_name': 'smith',
+            'email': 'john@smith.io'
+        })
+
+    def test_normal_view(self):
+        """Verify with an usual username"""
+        token = self.generate_verification_token('john123')
+        url = '/users/email/verify/?token={}'.format(token)
+        response = self.client.get(url)
+        user = User.objects.get(username='john123')
+        self.assertTrue(user.is_verified)
+
+    def generate_verification_token(self, username):
+        """ Create JWT token that he user can use to verify its account """
+        exp_date = timezone.now() + timedelta(days=3)
+        payload = {
+            'user': username,
+            'exp': int(exp_date.timestamp()),
+            'type': 'email_confirmation'
+        }
+        token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+
+        return token.decode()
+

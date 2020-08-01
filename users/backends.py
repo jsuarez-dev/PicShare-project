@@ -1,13 +1,12 @@
 # Django
-from django.contrib.auth import get_user_model
-from django.contrib.auth.backends import ModelBackend, BaseBackend
+from django.contrib.auth.backends import ModelBackend
 # Models
 from users.models import User
 
 
 class EmailModelBackend(ModelBackend):
     """
-    This is a ModelBacked that allows authentication with either a username or an email address.
+    authentication class to login with the email address.
     """
 
     def authenticate(self, request, username=None, password=None, **kwargs):
@@ -27,9 +26,3 @@ class EmailModelBackend(ModelBackend):
         else:
             if user.check_password(password) and self.user_can_authenticate(user):
                 return user
-
-    def get_user(self, username):
-        try:
-            return get_user_model().objects.get(pk=username)
-        except get_user_model().DoesNotExist:
-            return None

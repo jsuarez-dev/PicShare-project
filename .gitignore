@@ -151,4 +151,6 @@ venv/
 db.sqlite3
 .certificate/
 .idea/
+chromedriver
+reports
 # End of https://www.gitignore.io/api/python
