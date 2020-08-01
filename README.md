@@ -1,4 +1,6 @@
-# Platzigram Project
+![AIgram App](https://github.com/jadry92/AIgram-project/workflows/AIgram%20App/badge.svg)
+
+# AIgram Project
 This repository has the result project of a [Django](https://platzi.com/clases/django/) course by Platzi.
 
 
