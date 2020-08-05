@@ -5,9 +5,29 @@
 {% endblock %}
 
 {% block container %}
-    <div>
-        <h3 class="h3">We sent you an confirmation email</h3>
-        <a href="{% url 'users:login' %}">Login</a>
-    </div>
+    {% if form.errors %}
+        <p class="alert alert-danger">
+            Your Email didn't match. Please try again
+        </p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p class="alert alert-danger">Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+        {% else %}
+            <p class="alert alert-danger">Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'users:send_email_verification' %}">
+        {% csrf_token %}
+        <p class="text-center">Pleas write your email:</p>
+        <div class="form-group">
+            <input id="email" class="form-control" type="email" placeholder="Email" name="email" />
+        </div>
+
+        <button class="btn btn-primary btn-block mt-5" type="submit">Send</button>
+    </form>
 
 {% endblock %}

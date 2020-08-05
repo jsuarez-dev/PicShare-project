@@ -7,6 +7,7 @@
 
 <p style="text-align:center">
     <code style="text-align:center">
+        {% url 'users:verify' %}?token={{ token }}
         {{ SITE_URL }}/users/email/verify/?token={{ token }}
     </code>
 </p>

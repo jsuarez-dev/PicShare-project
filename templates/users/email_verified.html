@@ -7,10 +7,12 @@
 {% block container %}
 
     <div>
-        {% if status != "successful" %}
+        {% if status == "Token has expired" %}
         <div class="alert alert-danger" role="alert">
             <h3 class="text-center">{{ status }}</h3>
+            <a href="{% url 'users:send_email_verification' %}" class="list-group-item list-group-item-primary"></a>
         </div>
+
         {% elif status == "successful" %}
         <div class="alert alert-success" role="alert">
             <h3 class="text-center">Your Email has been verified</h3>

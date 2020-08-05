@@ -64,6 +64,7 @@ class UserAdmin(BaseUserAdmin):
         'last_name',
         'is_active',
         'is_staff',
+        'is_verified'
     )
 
 

@@ -44,6 +44,17 @@ urlpatterns = [
         name='verify'
     ),
     path(
+        route='email/confirm_sent/',
+        view=views.ConfirmEmailVerificationSentView.as_view(),
+        name='email_confirm_sent'
+    ),
+    path(
+        route='email/no_verified/',
+        view=views.ConfirmEmailVerificationSentView.as_view(),
+        name='email_no_verified'
+    )
+    ,
+    path(
         route='email/send/',
         view=views.SendEmailVerificationView.as_view(),
         name='send_email_verification'

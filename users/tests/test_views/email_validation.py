@@ -11,6 +11,19 @@ import jwt
 from datetime import timedelta
 
 
+def generate_verification_expired_token(username):
+    """ Create JWT token that he user can use to verify its account """
+    exp_date = timezone.now() - timedelta(days=3)
+    payload = {
+        'user': username,
+        'exp': int(exp_date.timestamp()),
+        'type': 'email_confirmation'
+    }
+    token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+
+    return token.decode()
+
+
 def generate_verification_token(username):
     """ Create JWT token that he user can use to verify its account """
     exp_date = timezone.now() + timedelta(days=3)
@@ -61,7 +74,7 @@ class TestVerifyView(TestCase):
         token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
         url = '/users/email/verify/?token={}'.format(token)
         response = self.client.get(url)
-        self.assertEquals(response.context['status'], 'Invalid Token')
+        self.assertEquals(response.url, reverse('users:login'))
 
     def test_verify_view_fake_user(self):
         """Verify with an fake user"""
@@ -69,6 +82,15 @@ class TestVerifyView(TestCase):
         url = '/users/email/verify/?token={}'.format(token)
         response = self.client.get(url)
         self.assertEquals(response.url, reverse('users:login'))
+
+    def test_verify_view_expire_token(self):
+        """Verify with an expire_token"""
+        token = generate_verification_expired_token('john123')
+        url = '/users/email/verify/?token={}'.format(token)
+        response = self.client.get(url)
+        user = User.objects.get(username='john123')
+        self.assertFalse(user.is_verified)
+        self.assertEquals(response.context['status'], 'Token has expired')
 
     def test_verify_view_user_already_verify(self):
         """Verify user already verify"""

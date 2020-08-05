@@ -26,7 +26,7 @@ class TestSignUpViews(TestCase):
         })
 
         self.assertEquals(response.status_code, 302)
-        self.assertEquals(response.url, reverse('users:send_email_verification'))
+        self.assertEquals(response.url, reverse('users:email_confirm_sent'))
         self.assertEquals(User.objects.get(username='john123').email, 'john@smith.io')
 
     def test_black_signup(self):

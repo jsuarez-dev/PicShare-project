@@ -1,0 +1,14 @@
+{% extends "users/base.html" %}
+
+{% block head_content %}
+    <title>AI-gram</title>
+{% endblock %}
+
+{% block container %}
+    <div>
+        <h3 class="text-center">We've sent you an confirmation email</a></h3>
+        <h5 class="text-center">First validate your email before <a href="{% url 'users:login' %}">Login</a></h5>
+        <p class="text-center">Didn't receive yet? <a href="{% url 'users:send_email_verification' %}">Re-send!</a></p>
+    </div>
+
+{% endblock %}

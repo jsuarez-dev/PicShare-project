@@ -3,11 +3,8 @@
 # Django
 from django.test import TestCase, Client
 from django.urls import reverse
-from django.utils import timezone
-from django.conf import settings
 # Models
 from users.models import User
-
 
 
 class TestLoginView(TestCase):
@@ -29,7 +26,7 @@ class TestLoginView(TestCase):
         })
 
         self.assertEquals(response.status_code, 302)
-        self.assertEquals(response.url, reverse('users:send_email_verification'))
+        self.assertEquals(response.url, reverse('users:email_confirm_sent'))
         self.assertEquals(User.objects.get(username='john123').email, 'john@smith.io')
 
         response = self.client.post(self.url, {
@@ -52,7 +49,7 @@ class TestLoginView(TestCase):
         })
 
         self.assertEquals(response.status_code, 302)
-        self.assertEquals(response.url, reverse('users:send_email_verification'))
+        self.assertEquals(response.url, reverse('users:email_confirm_sent'))
         self.assertEquals(User.objects.get(username='john123').email, 'john@smith.io')
 
         response = self.client.post(self.url, {

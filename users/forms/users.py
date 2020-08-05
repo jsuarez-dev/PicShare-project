@@ -13,6 +13,37 @@ from datetime import timedelta
 import jwt
 
 
+def generate_verification_token(user):
+    """ Function to Create JWT token to verify its the User account """
+    exp_date = timezone.now() + timedelta(days=3)
+    payload = {
+        'user': user.username,
+        'exp': int(exp_date.timestamp()),
+        'type': 'email_confirmation'
+    }
+    token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+
+    return token.decode()
+
+
+def send_validation_email(user):
+    """send email validation"""
+    verification_token = generate_verification_token(user)
+    subject = 'Welcome @{}! Verify your account to start using AIgram'.format(user.username)
+    from_email = 'AI-gram <noreply@aigram.com>'
+    content = render_to_string(
+        'emails/users/account_verification.html',
+        {
+            'token': verification_token,
+            'user': user,
+            'SITE_URL': settings.SITE_URL
+        }
+    )
+    msg = EmailMultiAlternatives(subject, content, from_email, [user.email])
+    msg.attach_alternative(content, 'text/html')
+    msg.send()
+
+
 class SignupForm(forms.Form):
     """ Signup form """
 
@@ -67,33 +98,23 @@ class SignupForm(forms.Form):
 
         profile = Profile(user=user)
         profile.save()
-        self.send_validation_email(user=user)
+        send_validation_email(user=user)
 
-    def send_validation_email(self, user):
-        """send email validation"""
-        verification_token = self.generate_verification_token(user)
-        subject = 'Welcome @{}! Verify your account to start using AIgram'.format(user.username)
-        from_email = 'AI-gram <noreply@aigram.com>'
-        content = render_to_string(
-            'emails/users/account_verification.html',
-            {
-                'token': verification_token,
-                'user': user,
-                'SITE_URL': settings.SITE_URL
-            }
-        )
-        msg = EmailMultiAlternatives(subject, content, from_email, [user.email])
-        msg.attach_alternative(content, 'text/html')
-        msg.send()
 
-    def generate_verification_token(self, user):
-        """ Create JWT token that he user can use to verify its account """
-        exp_date = timezone.now() + timedelta(days=3)
-        payload = {
-            'user': user.username,
-            'exp': int(exp_date.timestamp()),
-            'type': 'email_confirmation'
-        }
-        token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+class SendEmailVerificationForm(forms.Form):
+    """From to validate email and send email confirmation"""
+    email = forms.EmailField()
 
-        return token.decode()
+    def clean_email(self):
+        """check if the email is correct"""
+        email = self.cleaned_data['email']
+        user = User.objects.filter(email=email).first()
+
+        if user:
+            if user.is_verified:
+                raise forms.ValidationError('Email already verified', code='verified')
+            else:
+                send_validation_email(user=user)
+                return email
+        else:
+            raise forms.ValidationError('Invalid Email', code='invalid')
