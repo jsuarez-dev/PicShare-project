@@ -11,6 +11,7 @@ from users.models import Profile
 # Utilities
 from datetime import timedelta
 import jwt
+from datetime import datetime
 
 
 def generate_verification_token(user):
@@ -68,6 +69,15 @@ class SignupForm(forms.Form):
         max_length=70,
         widget=forms.EmailInput()
     )
+
+    birthday = forms.DateField()
+
+    def clean_birthday(self):
+        """Check if is a valid date of birth"""
+        birthday = self.cleaned_data['birthday']
+        if datetime.now().date() < birthday:
+            raise forms.ValidationError('The birthday date is invalid')
+        return birthday
 
     def clean_username(self):
         """ Username must be unique. """

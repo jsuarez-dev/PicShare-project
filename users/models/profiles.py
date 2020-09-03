@@ -28,7 +28,7 @@ class Profile(models.Model):
     gender = models.CharField(max_length=2, choices=GENDERS, default='P')
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-
+    
     def __str__(self):
         """Return username"""
         return self.user.username

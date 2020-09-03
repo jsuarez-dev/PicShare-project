@@ -1,4 +1,3 @@
-
 """User Views"""
 
 # Django
@@ -31,7 +30,7 @@ class ConfirmEmailVerificationSentView(TemplateView):
     template_name = 'users/confirm_email_verification_sent.html'
 
 
-class ConfirmEmailVerificationSentView(TemplateView):
+class EmailNotVerifiedView(TemplateView):
     """Class to show the email hasn't been verified"""
     template_name = 'users/email_not_verified.html'
 

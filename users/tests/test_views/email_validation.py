@@ -48,6 +48,7 @@ class TestVerifyView(TestCase):
             'username': 'john123',
             'password': '12345',
             'password_confirmation': '12345',
+            'birthday': '10/10/1990',
             'first_name': 'john',
             'last_name': 'smith',
             'email': 'john@smith.io'
@@ -98,6 +99,7 @@ class TestVerifyView(TestCase):
             'username': 'steve123',
             'password': '12345',
             'password_confirmation': '12345',
+            'birthday': '10/10/1990',
             'first_name': 'steve',
             'last_name': 'smith',
             'email': 'steve@steve.io'

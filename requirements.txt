@@ -7,3 +7,4 @@ django-environ
 pyjwt
 pyunitreport
 selenium
+pyautogui

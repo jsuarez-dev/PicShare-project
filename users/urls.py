@@ -50,7 +50,7 @@ urlpatterns = [
     ),
     path(
         route='email/no_verified/',
-        view=views.ConfirmEmailVerificationSentView.as_view(),
+        view=views.EmailNotVerifiedView.as_view(),
         name='email_no_verified'
     )
     ,

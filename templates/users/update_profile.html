@@ -16,18 +16,21 @@
                 {% csrf_token %}
 
                 <div class="media">
+                    <div>
                     {% if profile.picture %}
                         <img src="{{ profile.picture.url }}" class="rounded-circle" height="50" />
                     {% else%}
                         <img src="{% static 'img/default-profile.png' %}" class="rounded-circle" height="50" />
                     {% endif %}
-
-                    <div class="media-body">
-                        <h5 class="ml-4">@{{ user.username }} | {{ user.get_full_name }}</h5>
-                        <p class="ml-4"><input type="file" name="picture"></p>
+                    </div>
+                    <div class="container-fluid">
+                        <h5 class="text-left mt-3 ml-1">@{{ user.username }} | {{ user.get_full_name }}</h5>
                     </div>
                 </div>
-
+                <div class="mt-4 custom-file">
+                    <input class="custom-file-input" type="file" name="picture" id="picture_id" lang="en">
+                    <label class="custom-file-label" for="picture_id">Picture</label>
+                </div>
                 {% for error in form.picture.errors %}
                 <div class="alert alert-danger">
                     <b>Picture: </b>{{ error }}

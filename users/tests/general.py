@@ -3,6 +3,8 @@
 from django.test import TestCase, Client
 # Models
 from users.models import Profile, User
+# utils
+from datetime import datetime
 
 
 class UserModeTestCase(TestCase):
@@ -13,6 +15,7 @@ class UserModeTestCase(TestCase):
             username='jadry92',
             email='jadry@google.com',
             password='123456',
+            birthday=datetime.strptime('10/10/1992', '%d/%m/%YY'),
             phone_number=123456789
         )
 
@@ -39,6 +42,7 @@ class UserModeTestCase(TestCase):
             'username': 'john123',
             'password': '12345',
             'password_confirmation': '12345',
+            'birthday': '10/10/1990',
             'first_name': 'john',
             'last_name': 'smith',
             'email': 'john@smith.io'

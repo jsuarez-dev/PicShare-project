@@ -38,6 +38,8 @@ class User(AbstractUser):
         blank=True
     )
 
+    birthday = models.DateField()
+
     def __str__(self):
         """Return username."""
         return self.username
@@ -45,3 +47,7 @@ class User(AbstractUser):
     def get_short_name(self):
         """Return username."""
         return self.username
+
+    def age(self):
+        import datetime
+        return int((datetime.date.today() - self.birthday).days / 365.25)
