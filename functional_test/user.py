@@ -80,9 +80,9 @@ class LoginTest(unittest.TestCase):
         cls.driver.get('http://127.0.0.1:8000/')
 
     def test_login(self):
-        username = 'yo123'
-        first_name = 'yo'
-        last_name = 'me'
+        username = 'me123'
+        first_name = 'me'
+        last_name = 'last'
         # Check the redirection
         self.assertEqual(self.driver.current_url, 'http://127.0.0.1:8000/users/login/?next=/')
         # Fill up login form
@@ -125,7 +125,6 @@ class LoginTest(unittest.TestCase):
 
             summit_btn = self.driver.find_element_by_xpath('//*[@id="profile-box"]/form/button')
             summit_btn.click()
-            time.sleep(5)
             self.driver.implicitly_wait(3)
             self.assertEqual(self.driver.current_url, 'http://127.0.0.1:8000/users/{}/'.format(username))
 

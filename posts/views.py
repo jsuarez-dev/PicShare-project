@@ -1,7 +1,7 @@
 """Post Views"""
 # Django
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, FormView
 from django.urls import reverse_lazy
 # Forms
 from posts.forms import PostForm
@@ -21,7 +21,7 @@ class PostDetailView(LoginRequiredMixin, DetailView):
 
 
 class PostsFeedView(LoginRequiredMixin, ListView):
-    """Return all published posts."""
+    """ Return all published posts."""
 
     template_name = 'posts/feed.html'
     model = Post
@@ -30,16 +30,19 @@ class PostsFeedView(LoginRequiredMixin, ListView):
     context_object_name = 'posts'
 
 
-class CreatePostView(LoginRequiredMixin, CreateView):
+class CreatePostView(LoginRequiredMixin, FormView):
     """Class to create new a post view."""
 
     template_name = 'posts/new.html'
     form_class = PostForm
     success_url = reverse_lazy('posts:feed')
 
-    def get_context_data(self, **kwargs):
-        """Add user and profile context"""
-        context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
-        context['profile'] = self.request.user.profile
-        return context
+    def get_form_kwargs(self):
+        kwargs = super(CreatePostView, self).get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        self.object = form.save()
+        return super().form_valid(form)

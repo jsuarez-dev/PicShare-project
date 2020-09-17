@@ -2,8 +2,6 @@
 
 # Django
 from django.db import models
-# Models
-from users.models import User
 
 
 class Profile(models.Model):
@@ -16,7 +14,8 @@ class Profile(models.Model):
         ('M', 'Male'),
         ('F', 'Female'),
         ('O', 'Other'),
-        ('P', 'Prefer not to say')
+        ('P', 'Prefer not to say'),
+        ('R', 'Robot')
     ]
 
     user = models.OneToOneField('users.User', on_delete=models.CASCADE)
@@ -25,7 +24,7 @@ class Profile(models.Model):
     biography = models.TextField(blank=True)
 
     picture = models.ImageField(upload_to='users/pictures', blank=True, null=True)
-    gender = models.CharField(max_length=2, choices=GENDERS, default='P')
+    gender = models.CharField(max_length=2, choices=GENDERS, default='R')
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     
@@ -39,5 +38,6 @@ class Following(models.Model):
     have all the profiles that a person follow
     """
 
-    profile = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='profile_id')
+    follower = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='follower')
     following = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='following')
+    created = models.DateTimeField(auto_now_add=True)
