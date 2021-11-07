@@ -1,8 +1,14 @@
 # Test
 from unittest import TestLoader, TestSuite
 from pyunitreport import HTMLTestRunner
-# Local
+# Local 
 from functional_test import *
+# Utilites
+import os
+
+PATH_DRIVER = './chromedriver'
+
+os.set
 
 basic_test = TestLoader().loadTestsFromTestCase(RunServerTest)
 user_sign = TestLoader().loadTestsFromTestCase(SignUpTest)

@@ -7,22 +7,26 @@ import unittest
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 # Utils
+import os
 import time
-import pyautogui
+from .utils import get_username_and_password
+
+PATH_DRIVER = os.environ['PATH_DRIVER']
 
 
 class SignUpTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.driver = webdriver.Chrome(executable_path=r'/Users/johan/Dev-courses/Django-course/platzigram/functional_test/chromedriver')
+        cls.driver = webdriver.Chrome(executable_path=PATH_DRIVER)
         cls.driver.implicitly_wait(15)
         cls.driver.get('http://127.0.0.1:8000/')
 
     def test_sign_up(self):
         """Sign up in the platform"""
         # Check the redirection
-        self.assertEqual(self.driver.current_url, 'http://127.0.0.1:8000/users/login/?next=/')
+        self.assertEqual(self.driver.current_url,
+                         'http://127.0.0.1:8000/users/login/?next=/')
         # move to sign up url
         sign_up_link = self.driver.find_element_by_link_text('Sign Up')
         sign_up_link.click()
@@ -39,7 +43,8 @@ class SignUpTest(unittest.TestCase):
         password.clear()
         password.send_keys('12345')
 
-        password_confirmation = self.driver.find_element_by_name('password_confirmation')
+        password_confirmation = self.driver.find_element_by_name(
+            'password_confirmation')
         password_confirmation.clear()
         password_confirmation.send_keys('12345')
 
@@ -55,7 +60,8 @@ class SignUpTest(unittest.TestCase):
         last_name.clear()
         last_name.send_keys('last')
         # send
-        summit = self.driver.find_element_by_xpath('//*[@id="auth-container"]/form/div[7]/div[1]/button')
+        summit = self.driver.find_element_by_xpath(
+            '//*[@id="auth-container"]/form/div[7]/div[1]/button')
         summit.click()
 
         try:
@@ -63,8 +69,10 @@ class SignUpTest(unittest.TestCase):
             self.assertEqual('Username is already use', title.text)
         except NoSuchElementException:
             time.sleep(5)
-            title = self.driver.find_element_by_xpath('//*[@id="auth-container"]/div/h3')
-            self.assertEqual("We've sent you an confirmation email", title.text)
+            title = self.driver.find_element_by_xpath(
+                '//*[@id="auth-container"]/div/h3')
+            self.assertEqual(
+                "We've sent you an confirmation email", title.text)
 
     @classmethod
     def tearDownClass(cls):
@@ -75,35 +83,39 @@ class LoginTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.driver = webdriver.Chrome(executable_path=r'/Users/johan/Dev-courses/Django-course/platzigram/functional_test/chromedriver')
+        cls.driver = webdriver.Chrome(executable_path=r'chromedriver')
         cls.driver.implicitly_wait(15)
         cls.driver.get('http://127.0.0.1:8000/')
 
     def test_login(self):
-        username = 'me123'
-        first_name = 'me'
-        last_name = 'last'
+
+        username, password = get_username_and_password(2)
+
         # Check the redirection
-        self.assertEqual(self.driver.current_url, 'http://127.0.0.1:8000/users/login/?next=/')
+        self.assertEqual(self.driver.current_url,
+                         'http://127.0.0.1:8000/users/login/?next=/')
         # Fill up login form
         username_field = self.driver.find_element_by_name('username')
         username_field.clear()
         username_field.send_keys(username)
 
-        password = self.driver.find_element_by_name('password')
-        password.clear()
-        password.send_keys('12345')
-        password.submit()
+        password_field = self.driver.find_element_by_name('password')
+        password_field.clear()
+        password_field.send_keys(password)
+        password_field.submit()
 
         self.driver.implicitly_wait(3)
 
         try:
-            title = self.driver.find_element_by_xpath('//*[@id="profile-box"]/form/div[1]/div/h5')
-            self.assertEqual(title.text, '@{} | {} {}'.format(username, first_name, last_name))
+            title = self.driver.find_element_by_xpath(
+                '//*[@id="profile-box"]/form/div[1]/div/h5')
+            self.assertEqual(
+                title.text, '@{} | {} {}'.format(username, first_name, last_name))
             # Fill up profile form
-            picture = self.driver.find_element_by_xpath('//*[@id="picture_id"]')
+            picture = self.driver.find_element_by_xpath(
+                '//*[@id="picture_id"]')
             picture.clear()
-            picture.send_keys("/Users/johan/Dev-courses/Django-course/platzigram/img_test/profile/img_test.001.png")
+            picture.send_keys("img_test/profile/img_test.001.png")
 
             website = self.driver.find_element_by_name('website')
             website.clear()
@@ -123,10 +135,12 @@ class LoginTest(unittest.TestCase):
             phone_number.clear()
             phone_number.send_keys('+61400100100')
 
-            summit_btn = self.driver.find_element_by_xpath('//*[@id="profile-box"]/form/button')
+            summit_btn = self.driver.find_element_by_xpath(
+                '//*[@id="profile-box"]/form/button')
             summit_btn.click()
             self.driver.implicitly_wait(3)
-            self.assertEqual(self.driver.current_url, 'http://127.0.0.1:8000/users/{}/'.format(username))
+            self.assertEqual(self.driver.current_url,
+                             'http://127.0.0.1:8000/users/{}/'.format(username))
 
         except NoSuchElementException:
             self.driver.implicitly_wait(3)
@@ -138,4 +152,5 @@ class LoginTest(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main(verbosity=2, testRunner=HTMLTestRunner(output='reports', report_name='AI-gram_login_report'))
+    unittest.main(verbosity=2, testRunner=HTMLTestRunner(
+        output='reports', report_name='AI-gram_login_report'))

@@ -1,0 +1,16 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% block head_content %}
+    <title>Platzigram</title>
+    <script src="{% static 'js/feed.js' %}"></script>>
+{% endblock%}
+
+{% block container %}
+
+    <div class="container">
+        <div class="row">
+            {% include "posts/post_card.html" %}
+        </div>
+    </div>
+
+{% endblock %}

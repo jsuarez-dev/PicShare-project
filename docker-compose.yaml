@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  django:
+    container_name: dj
+    build:
+      context: ./
+      dockerfile: ./containers/development/Dockerfile
+    command: /start.sh
+    volumes:
+      - ./:/code
+    ports:
+      - '8000:8000'
+    environment:
+      - DJANGO_SETTINGS=dev

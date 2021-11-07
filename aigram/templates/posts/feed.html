@@ -1,0 +1,22 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% block head_content %}
+    <title>Ai gram</title>
+    <script src="{% static 'js/feed.js' %}"></script>>
+{% endblock%}
+
+{% block container %}
+
+    <div class="container">
+        <div class="row">
+
+            {% for post in posts %}
+                {% include "posts/post_card.html" %}
+            {% endfor %}
+
+        </div>
+    </div>
+
+    {% include "posts/pagination.html" %}
+
+{% endblock %}

@@ -11,7 +11,7 @@ class RunServerTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Chrome(
-            executable_path=r'/Users/johan/Dev-courses/Django-course/platzigram/functional_test/chromedriver'
+            executable_path=r'functional_test/chromedriver'
         )
         cls.driver.implicitly_wait(15)
 
