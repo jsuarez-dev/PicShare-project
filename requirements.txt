@@ -8,3 +8,4 @@ pyjwt
 pyunitreport
 selenium
 pyautogui
+psycopg2
